@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Бункер Шоу</title>
     <style>
-        /* Сброс стандартных отступов и полей */
+        /* Все предыдущие стили остаются */
         * {
             margin: 0;
             padding: 0;
@@ -16,6 +16,7 @@
         body {
             background-color: #0f0f0f;
             color: #f1f1f1;
+            padding-top: 62px;
         }
 
         /* Шапка */
@@ -31,6 +32,7 @@
             left: 0;
             right: 0;
             z-index: 100;
+            border-bottom: 1px solid #272727;
         }
 
         .left-section {
@@ -57,17 +59,41 @@
             justify-content: center;
         }
 
-        .country-code {
-            font-size: 10px;
-            color: #aaa;
-            margin-left: -14px;
-            margin-top: 14px;
-        }
-
-        .right-section {
+        .auth-section {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .login-button {
+            background: #065fd4;
+            color: white;
+            border: none;
+            border-radius: 18px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-button:hover {
+            background: #0f4db3;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #272727;
+            padding: 6px 12px;
+            border-radius: 18px;
+        }
+
+        .user-avatar-small {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
         }
 
         .user-avatar {
@@ -126,7 +152,6 @@
         /* Основной контент */
         main {
             margin-left: 230px;
-            margin-top: 62px;
             padding: 22px 44px;
             max-width: 1350px;
             margin-right: auto;
@@ -139,16 +164,16 @@
             background-size: cover;
             background-position: center;
             border-radius: 14px;
-            margin-bottom: 18px; /* Уменьшил отступ снизу */
+            margin-bottom: 18px;
             position: relative;
         }
 
         .channel-info {
             display: flex;
             align-items: center;
-            padding: 14px 0; /* Уменьшил отступы */
+            padding: 14px 0;
             border-bottom: 1px solid #272727;
-            margin-top: -5px; /* Поднял блок выше */
+            margin-top: -5px;
         }
 
         .channel-avatar {
@@ -170,14 +195,14 @@
             color: #fff;
             text-shadow: 0 2px 7px rgba(0,0,0,0.7);
             letter-spacing: 0.4px;
-            margin-top: -2px; /* Поднял текст выше */
+            margin-top: -2px;
         }
 
         /* Вкладки */
         .tabs {
             display: flex;
             border-bottom: 1px solid #272727;
-            margin-top: 16px; /* Уменьшил отступ сверху */
+            margin-top: 16px;
             gap: 6px;
         }
 
@@ -290,7 +315,6 @@
         .video-page {
             display: none;
             margin-left: 230px;
-            margin-top: 62px;
             padding: 20px;
             background-color: #0f0f0f;
         }
@@ -316,7 +340,7 @@
 
         .video-player-full {
             width: 100%;
-            height: 70vh; /* Большая высота для удобного просмотра */
+            height: 70vh;
             min-height: 500px;
             border: none;
         }
@@ -363,6 +387,16 @@
 
         .action-button:hover {
             background: #3d3d3d;
+        }
+
+        .action-button.liked {
+            background: #065fd4;
+            color: #fff;
+        }
+
+        .action-button.disliked {
+            background: #cc0000;
+            color: #fff;
         }
 
         .channel-info-video {
@@ -494,68 +528,6 @@
         .back-button:hover {
             background: #3d3d3d;
         }
-
-        /* Адаптивность */
-        @media (max-width: 1200px) {
-            main {
-                padding: 18px 32px;
-            }
-            
-            .videos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            }
-
-            .video-container {
-                flex-direction: column;
-            }
-
-            .sidebar-video {
-                width: 100%;
-                margin-top: 24px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 72px;
-            }
-            
-            .sidebar-item span {
-                display: none;
-            }
-            
-            .sidebar-icon {
-                margin-right: 0;
-            }
-            
-            main {
-                margin-left: 72px;
-                padding: 14px 18px;
-            }
-            
-            .channel-avatar {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .channel-title {
-                font-size: 26px;
-            }
-            
-            .banner {
-                height: 160px;
-            }
-
-            .video-page {
-                margin-left: 72px;
-                padding: 12px;
-            }
-
-            .video-player-full {
-                height: 50vh;
-                min-height: 300px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -569,6 +541,9 @@
         </div>
 
         <div class="right-section">
+            <div class="auth-section" id="authSection">
+                <button class="login-button" onclick="handleAuthClick()" id="loginButton" style="visibility: hidden;">Войти</button>
+            </div>
             <img src="https://yt3.googleusercontent.com/b1QWqjw9-5jaqxtoeGUnMtwKD01lruTvlDT9XkcVh41F9bCnxMt0Il3iI3s9AURp6XfpI3in4g=s160-c-k-c0x00ffffff-no-rj" alt="Аватар" class="user-avatar">
         </div>
     </header>
@@ -679,11 +654,8 @@
                         <span id="videoDateFull"></span>
                     </div>
                     
-                    <div class="video-actions">
-                        <button class="action-button">👍 Нравится</button>
-                        <button class="action-button">👎 Не нравится</button>
-                        <button class="action-button">📤 Поделиться</button>
-                        <button class="action-button">💾 Сохранить</button>
+                    <div class="video-actions" id="videoActions">
+                        <!-- Кнопки действий будут добавлены через JS -->
                     </div>
                     
                     <div class="channel-info-video">
@@ -710,6 +682,17 @@
     </div>
 
     <script>
+        // === КОНФИГУРАЦИЯ С ВАШИМИ КЛЮЧАМИ ===
+        const CLIENT_ID = '591207353726-shbp5qq759sf9qo0stpmt0d8i0ff432l.apps.googleusercontent.com';
+        const API_KEY = 'AIzaSyCmhhCOveZ5GRDSjBEv8MJMENml_AEh_Aw';
+        const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest';
+        const SCOPES = 'https://www.googleapis.com/auth/youtube.force-ssl';
+
+        let tokenClient;
+        let gapiInited = false;
+        let gisInited = false;
+        let currentVideoId = '';
+
         // Массив с вашими видео
         const videos = [
             {
@@ -746,15 +729,218 @@
             }
         ];
 
-        // Функции для переключения страниц
+        // === ИНИЦИАЛИЗАЦИЯ GOOGLE API ===
+        function gapiLoaded() {
+            gapi.load('client', initializeGapiClient);
+        }
+
+        async function initializeGapiClient() {
+            await gapi.client.init({
+                apiKey: API_KEY,
+                discoveryDocs: [DISCOVERY_DOC],
+            });
+            gapiInited = true;
+            maybeEnableButtons();
+        }
+
+        function gisLoaded() {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+                callback: '', // определим позже
+            });
+            gisInited = true;
+            maybeEnableButtons();
+        }
+
+        function maybeEnableButtons() {
+            if (gapiInited && gisInited) {
+                document.getElementById('loginButton').style.visibility = 'visible';
+            }
+        }
+
+        // === АВТОРИЗАЦИЯ ===
+        function handleAuthClick() {
+            tokenClient.callback = async (resp) => {
+                if (resp.error !== undefined) {
+                    console.error('Auth error:', resp);
+                    alert('Ошибка авторизации: ' + resp.error);
+                    return;
+                }
+                await updateUI();
+            };
+
+            if (gapi.client.getToken() === null) {
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            } else {
+                tokenClient.requestAccessToken({prompt: ''});
+            }
+        }
+
+        function handleSignoutClick() {
+            const token = gapi.client.getToken();
+            if (token !== null) {
+                google.accounts.oauth2.revoke(token.access_token);
+                gapi.client.setToken('');
+                updateUI();
+                location.reload();
+            }
+        }
+
+        // === ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ===
+        async function updateUI() {
+            const isSignedIn = gapi.client.getToken() !== null;
+            
+            if (isSignedIn) {
+                try {
+                    const userInfo = await gapi.client.youtube.channels.list({
+                        part: 'snippet',
+                        mine: true
+                    });
+                    
+                    if (userInfo.result.items && userInfo.result.items.length > 0) {
+                        const user = userInfo.result.items[0].snippet;
+                        document.getElementById('authSection').innerHTML = `
+                            <div class="user-info">
+                                <img src="${user.thumbnails.default.url}" alt="${user.title}" class="user-avatar-small">
+                                <span>${user.title}</span>
+                                <button class="login-button" onclick="handleSignoutClick()">Выйти</button>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Error getting user info:', error);
+                    document.getElementById('authSection').innerHTML = `
+                        <div class="user-info">
+                            <span>Пользователь</span>
+                            <button class="login-button" onclick="handleSignoutClick()">Выйти</button>
+                        </div>
+                    `;
+                }
+            } else {
+                document.getElementById('authSection').innerHTML = `
+                    <button class="login-button" onclick="handleAuthClick()" id="loginButton">Войти</button>
+                `;
+            }
+        }
+
+        // === ФУНКЦИИ ДЛЯ РАБОТЫ С ЛАЙКАМИ ===
+        async function likeVideo() {
+            if (!gapi.client.getToken()) {
+                alert('Сначала войдите в аккаунт Google!');
+                return;
+            }
+
+            if (!currentVideoId) {
+                alert('Видео не выбрано');
+                return;
+            }
+
+            try {
+                await gapi.client.youtube.videos.rate({
+                    id: currentVideoId,
+                    rating: 'like'
+                });
+                
+                console.log('Video liked successfully');
+                updateLikeButtons('like');
+                
+            } catch (error) {
+                console.error('Error liking video:', error);
+                alert('Ошибка при установке лайка: ' + (error.result ? error.result.error.message : error));
+            }
+        }
+
+        async function dislikeVideo() {
+            if (!gapi.client.getToken()) {
+                alert('Сначала войдите в аккаунт Google!');
+                return;
+            }
+
+            if (!currentVideoId) {
+                alert('Видео не выбрано');
+                return;
+            }
+
+            try {
+                await gapi.client.youtube.videos.rate({
+                    id: currentVideoId,
+                    rating: 'dislike'
+                });
+                
+                console.log('Video disliked successfully');
+                updateLikeButtons('dislike');
+                
+            } catch (error) {
+                console.error('Error disliking video:', error);
+                alert('Ошибка при установке дизлайка: ' + (error.result ? error.result.error.message : error));
+            }
+        }
+
+        async function getVideoRating(videoId) {
+            if (!gapi.client.getToken()) {
+                return 'none';
+            }
+
+            try {
+                const response = await gapi.client.youtube.videos.getRating({
+                    id: videoId
+                });
+                
+                if (response.result.items && response.result.items.length > 0) {
+                    return response.result.items[0].rating;
+                }
+                return 'none';
+            } catch (error) {
+                console.error('Error getting video rating:', error);
+                return 'none';
+            }
+        }
+
+        function updateLikeButtons(rating) {
+            const likeBtn = document.querySelector('.action-button.like-btn');
+            const dislikeBtn = document.querySelector('.action-button.dislike-btn');
+            
+            if (likeBtn && dislikeBtn) {
+                likeBtn.classList.remove('liked');
+                dislikeBtn.classList.remove('disliked');
+                
+                if (rating === 'like') {
+                    likeBtn.classList.add('liked');
+                } else if (rating === 'dislike') {
+                    dislikeBtn.classList.add('disliked');
+                }
+            }
+        }
+
+        function createActionButtons() {
+            return `
+                <button class="action-button like-btn" onclick="likeVideo()">
+                    👍 Нравится
+                </button>
+                <button class="action-button dislike-btn" onclick="dislikeVideo()">
+                    👎 Не нравится
+                </button>
+                <button class="action-button" onclick="shareVideo()">
+                    📤 Поделиться
+                </button>
+                <button class="action-button" onclick="saveVideo()">
+                    💾 Сохранить
+                </button>
+            `;
+        }
+
+        // === ФУНКЦИИ ДЛЯ СТРАНИЦ ===
         function showMainPage() {
             document.getElementById('mainPage').style.display = 'block';
             document.getElementById('videoPage').style.display = 'none';
         }
 
-        function showVideoPage(videoId) {
+        async function showVideoPage(videoId) {
             const video = videos.find(v => v.id === videoId);
             if (video) {
+                currentVideoId = videoId;
+                
                 document.getElementById('mainPage').style.display = 'none';
                 document.getElementById('videoPage').style.display = 'block';
                 
@@ -765,17 +951,22 @@
                 document.getElementById('videoDateFull').textContent = video.date;
                 document.getElementById('videoDescription').textContent = video.description;
                 
+                // Создаем кнопки действий
+                document.getElementById('videoActions').innerHTML = createActionButtons();
+                
+                // Обновляем кнопки лайков
+                const rating = await getVideoRating(videoId);
+                updateLikeButtons(rating);
+                
                 // Загружаем рекомендованные видео
                 loadRecommendedVideos(videoId);
             }
         }
 
-        // Функция для загрузки рекомендованных видео
         function loadRecommendedVideos(currentVideoId) {
             const recommendedContainer = document.getElementById('recommendedVideos');
             recommendedContainer.innerHTML = '';
             
-            // Показываем все видео кроме текущего
             videos.filter(video => video.id !== currentVideoId).forEach(video => {
                 const recommendedItem = document.createElement('div');
                 recommendedItem.className = 'recommended-item';
@@ -794,7 +985,6 @@
             });
         }
 
-        // Остальные функции остаются без изменений
         function showTab(tabName) {
             document.getElementById('videos-content').style.display = 'none';
             document.getElementById('shorts-content').style.display = 'none';
@@ -845,8 +1035,29 @@
             });
         }
 
+        // Вспомогательные функции
+        function shareVideo() {
+            if (currentVideoId) {
+                const url = `https://www.youtube.com/watch?v=${currentVideoId}`;
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Ссылка скопирована в буфер обмена!');
+                });
+            }
+        }
+
+        function saveVideo() {
+            alert('Функция "Сохранить" в разработке');
+        }
+
         // Загружаем видео при загрузке страницы
-        window.onload = loadVideos;
+        window.onload = function() {
+            loadVideos();
+            updateUI(); // Проверяем статус авторизации при загрузке
+        };
     </script>
+
+    <!-- Подключаем Google API -->
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 </body>
 </html>
