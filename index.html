@@ -3,1061 +3,1213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бункер Шоу</title>
+    <title>VK Music • Spotify Style</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
     <style>
-        /* Все предыдущие стили остаются */
+        /* === SPOTIFY STYLE CSS === */
+        :root {
+            /* Цвета из твоего дизайна */
+            --app-background: hsl(0,0%,0%);
+            --app-foreground: hsl(0,0%,7%);
+            
+            --accent-hue: 141;
+            --accent-saturation: 72.9%;
+            --accent-lightness: 42%;
+            --accent-color: hsl(141, 72.9%, 42%);
+            --accent-text-color: hsl(0,0%,6%);
+            
+            --card-color: hsl(0,0%,10%);
+            --card-color-hover: hsl(0,0%,14%);
+            --card-color-active: hsl(0,0%,22%);
+            --card-radius: 6px;
+            --card-border-color: hsl(0,0%,19%);
+            
+            --menu-text-color: hsl(0,0%,85%);
+            --background-tinted-hover: hsla(0,0%,100%,0.07);
+            --background-tinted-active: hsla(0,0%,100%,0.11);
+            
+            --input-color: hsla(0,0%,100%,0.09);
+            --input-text-color: hsl(0,0%,96%);
+            --input-placeholder-color: hsl(0,0%,71%);
+            
+            --popout-color: hsl(0,0%,16%);
+            --scrollbar-color: hsl(0,0%,35%);
+        }
+
+        /* === ОСНОВНЫЕ СТИЛИ === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: #0f0f0f;
-            color: #f1f1f1;
-            padding-top: 62px;
+            background-color: var(--app-background);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Шапка */
-        header {
+        /* === ГЛАВНЫЙ КОНТЕЙНЕР === */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* === БОКОВАЯ ПАНЕЛЬ === */
+        .sidebar {
+            width: 240px;
+            background-color: var(--app-foreground);
+            padding: 24px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .logo {
+            padding: 0 12px;
+            margin-bottom: 24px;
+        }
+
+        .logo h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            background: linear-gradient(45deg, var(--accent-color), #1DB954);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-section h3 {
+            color: #b3b3b3;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            color: var(--menu-text-color);
+            text-decoration: none;
+            border-radius: var(--card-radius);
+            transition: background-color 0.2s;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            background-color: var(--background-tinted-hover);
+        }
+
+        .nav-item.active {
+            background-color: var(--background-tinted-active);
+            color: white;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* === ОСНОВНОЙ КОНТЕНТ === */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, #1e1e1e 0%, #121212 100%);
+            overflow-y: auto;
+        }
+
+        /* ХЕДЕР */
+        .header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 16px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 22px;
-            height: 62px;
-            background-color: #0f0f0f;
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
             z-index: 100;
-            border-bottom: 1px solid #272727;
+            backdrop-filter: blur(10px);
         }
 
-        .left-section {
+        .nav-buttons {
             display: flex;
-            align-items: center;
+            gap: 16px;
         }
 
-        .logo-container {
+        .nav-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(0,0,0,0.7);
+            border: none;
+            color: white;
             display: flex;
             align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
 
-        .logo-icon {
-            color: #fff;
-            margin-right: 22px;
-            font-size: 21px;
-            background: #272727;
-            width: 38px;
-            height: 38px;
+        .nav-button:hover {
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--input-color);
+            border-radius: 500px;
+            padding: 8px 16px;
+            width: 400px;
+        }
+
+        .search-box i {
+            color: var(--input-placeholder-color);
+            margin-right: 12px;
+        }
+
+        .search-box input {
+            background: none;
+            border: none;
+            color: var(--input-text-color);
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: var(--input-placeholder-color);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            background-color: var(--card-color);
+            border-radius: 23px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background-color: var(--card-color-hover);
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #1DB954, var(--accent-color));
+        }
+
+        /* КОНТЕНТ */
+        .content-wrapper {
+            padding: 32px;
+            flex: 1;
+        }
+
+        .greeting {
+            margin-bottom: 32px;
+        }
+
+        .greeting h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .greeting p {
+            color: #b3b3b3;
+            font-size: 14px;
+        }
+
+        /* СЕТКА КАРТОЧЕК */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .music-card {
+            background-color: var(--card-color);
+            border-radius: var(--card-radius);
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid transparent;
+        }
+
+        .music-card:hover {
+            background-color: var(--card-color-hover);
+            border-color: var(--card-border-color);
+            transform: translateY(-4px);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 4px;
+            background: linear-gradient(45deg, #1DB954, var(--accent-color));
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 48px;
+            height: 48px;
+            background-color: var(--accent-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .auth-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .login-button {
-            background: #065fd4;
-            color: white;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s ease;
             border: none;
-            border-radius: 18px;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 500;
+            color: var(--accent-text-color);
             cursor: pointer;
-            transition: background 0.3s;
         }
 
-        .login-button:hover {
-            background: #0f4db3;
+        .music-card:hover .play-button {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #272727;
-            padding: 6px 12px;
-            border-radius: 18px;
-        }
-
-        .user-avatar-small {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-        }
-
-        .user-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 11px;
-            cursor: pointer;
-            border: 2px solid #333;
-        }
-
-        /* Боковая панель */
-        .sidebar {
-            position: fixed;
-            top: 62px;
-            left: 0;
-            bottom: 0;
-            width: 230px;
-            background-color: #0f0f0f;
-            padding-top: 14px;
-            overflow-y: auto;
-            z-index: 99;
-        }
-
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            padding: 0 22px;
-            height: 42px;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 11px;
-            margin: 0 11px;
-            transition: background-color 0.2s;
-        }
-
-        .sidebar-item:hover {
-            background-color: #272727;
-        }
-
-        .sidebar-item.active {
-            background-color: #272727;
-            font-weight: 500;
-        }
-
-        .sidebar-icon {
-            margin-right: 22px;
-            font-size: 19px;
-        }
-
-        .sidebar-divider {
-            height: 1px;
-            background-color: #272727;
-            margin: 14px 11px;
-        }
-
-        /* Основной контент */
-        main {
-            margin-left: 230px;
-            padding: 22px 44px;
-            max-width: 1350px;
-            margin-right: auto;
-        }
-
-        .banner {
-            width: 100%;
-            height: 220px;
-            background-image: url('https://yt3.googleusercontent.com/EGi3XsV3zvg90NBiVISa9rC3lKmB9SIJPa9ObAXycobttZsYl0txAD3eefewsIUoeB7GDgsg=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj');
-            background-size: cover;
-            background-position: center;
-            border-radius: 14px;
-            margin-bottom: 18px;
-            position: relative;
-        }
-
-        .channel-info {
-            display: flex;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid #272727;
-            margin-top: -5px;
-        }
-
-        .channel-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 20px;
-            margin-right: 24px;
-            border: 3px solid #333;
-        }
-
-        .channel-details {
-            flex: 1;
-        }
-
-        .channel-title {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #fff;
-            text-shadow: 0 2px 7px rgba(0,0,0,0.7);
-            letter-spacing: 0.4px;
-            margin-top: -2px;
-        }
-
-        /* Вкладки */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #272727;
-            margin-top: 16px;
-            gap: 6px;
-        }
-
-        .tab {
-            padding: 13px 22px;
-            cursor: pointer;
-            font-size: 15px;
-            color: #aaa;
-            font-weight: 500;
-            transition: all 0.3s;
-            border-radius: 8px 8px 0 0;
-            background: transparent;
-            border: none;
-        }
-
-        .tab:hover {
-            color: #fff;
-            background: #272727;
-        }
-
-        .tab.active {
-            color: #fff;
-            background: #272727;
-            border-bottom: 3px solid #fff;
-        }
-
-        /* Сетка видео */
-        .videos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-            gap: 22px;
-            margin-top: 22px;
-        }
-
-        .video-item {
-            cursor: pointer;
-            transition: transform 0.3s;
-            border-radius: 11px;
-            overflow: hidden;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .video-item:hover {
-            transform: translateY(-3px);
-        }
-
-        .thumbnail-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-        }
-
-        .thumbnail {
-            width: 100%;
-            height: 100%;
-            border-radius: 11px;
-            background-color: #272727;
-            object-fit: cover;
-        }
-
-        .video-info {
-            display: flex;
-            padding: 11px 4px;
-        }
-
-        .video-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 11px;
-            margin-right: 11px;
-            flex-shrink: 0;
-        }
-
-        .video-details {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .video-title {
-            font-size: 15px;
-            font-weight: 500;
-            margin-bottom: 5px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            color: #fff;
-            line-height: 1.35;
-        }
-
-        .video-channel {
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-
-        .video-meta {
-            color: #aaa;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-        }
-
-        .dot {
-            margin: 0 4px;
-        }
-
-        /* Страница просмотра видео */
-        .video-page {
-            display: none;
-            margin-left: 230px;
-            padding: 20px;
-            background-color: #0f0f0f;
-        }
-
-        .video-container {
-            display: flex;
-            gap: 24px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .video-player-section {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .video-player-wrapper {
-            width: 100%;
-            border-radius: 14px;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .video-player-full {
-            width: 100%;
-            height: 70vh;
-            min-height: 500px;
-            border: none;
-        }
-
-        .video-info-section {
-            margin-top: 16px;
-        }
-
-        .video-title-full {
-            font-size: 20px;
+        .card-title {
             font-weight: 600;
-            margin-bottom: 12px;
-            color: #fff;
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .card-description {
+            color: #b3b3b3;
+            font-size: 14px;
             line-height: 1.4;
         }
 
-        .video-stats {
+        /* ПЛЕЕР ВНИЗУ */
+        .player-bar {
+            background-color: var(--app-foreground);
+            height: 80px;
+            border-top: 1px solid var(--card-border-color);
             display: flex;
             align-items: center;
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 16px;
+            justify-content: space-between;
+            padding: 0 32px;
+            position: sticky;
+            bottom: 0;
         }
 
-        .video-actions {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .action-button {
-            background: #272727;
-            border: none;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 18px;
-            cursor: pointer;
-            font-size: 14px;
+        .now-playing {
             display: flex;
             align-items: center;
-            gap: 6px;
-            transition: background 0.3s;
+            gap: 16px;
+            width: 240px;
         }
 
-        .action-button:hover {
-            background: #3d3d3d;
+        .now-playing-cover {
+            width: 56px;
+            height: 56px;
+            border-radius: 4px;
+            background: linear-gradient(45deg, #1DB954, var(--accent-color));
         }
 
-        .action-button.liked {
-            background: #065fd4;
-            color: #fff;
-        }
-
-        .action-button.disliked {
-            background: #cc0000;
-            color: #fff;
-        }
-
-        .channel-info-video {
-            display: flex;
-            align-items: center;
-            padding: 16px 0;
-            border-top: 1px solid #272727;
-            border-bottom: 1px solid #272727;
-        }
-
-        .channel-avatar-video {
-            width: 48px;
-            height: 48px;
-            border-radius: 24px;
-            margin-right: 16px;
-        }
-
-        .channel-details-video {
-            flex: 1;
-        }
-
-        .channel-name-video {
-            font-size: 16px;
+        .track-info h4 {
             font-weight: 500;
             margin-bottom: 4px;
-            color: #fff;
-        }
-
-        .channel-subs-video {
-            color: #aaa;
-            font-size: 13px;
-        }
-
-        .subscribe-button-video {
-            background: #cc0000;
-            color: white;
-            border: none;
-            border-radius: 18px;
-            padding: 10px 16px;
             font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
         }
 
-        .video-description {
-            margin-top: 16px;
-            padding: 16px;
-            background: #272727;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 14px;
-            line-height: 1.5;
+        .track-info p {
+            color: #b3b3b3;
+            font-size: 12px;
         }
 
-        .sidebar-video {
-            width: 400px;
-            flex-shrink: 0;
-        }
-
-        .recommended-videos {
+        .player-controls {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 16px;
+        }
+
+        .control-button.play-pause {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
             gap: 12px;
         }
 
-        .recommended-item {
-            display: flex;
-            gap: 8px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            transition: background 0.3s;
+        .progress-time {
+            color: #b3b3b3;
+            font-size: 12px;
+            min-width: 40px;
         }
 
-        .recommended-item:hover {
-            background: #272727;
-        }
-
-        .recommended-thumbnail {
-            width: 168px;
-            height: 94px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .recommended-info {
+        .progress-track {
             flex: 1;
-            min-width: 0;
-        }
-
-        .recommended-title {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 4px;
-            color: #fff;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.4;
-        }
-
-        .recommended-channel {
-            color: #aaa;
-            font-size: 13px;
-            margin-bottom: 2px;
-        }
-
-        .recommended-meta {
-            color: #aaa;
-            font-size: 13px;
-        }
-
-        .back-button {
-            background: #272727;
-            border: none;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 18px;
+            height: 4px;
+            background-color: #404040;
+            border-radius: 2px;
+            position: relative;
             cursor: pointer;
-            margin-bottom: 16px;
+        }
+
+        .progress-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+            width: 30%;
+        }
+
+        .player-options {
+            width: 240px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .volume-control {
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: background 0.3s;
         }
 
-        .back-button:hover {
-            background: #3d3d3d;
+        .volume-control i {
+            color: #b3b3b3;
+            font-size: 16px;
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 4px;
+            background-color: #404040;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .volume-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: white;
+            border-radius: 2px;
+            width: 70%;
+        }
+
+        /* === ФОРМА АВТОРИЗАЦИИ === */
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-box {
+            background-color: var(--popout-color);
+            border-radius: var(--card-radius);
+            padding: 40px;
+            width: 90%;
+            max-width: 480px;
+            border: 1px solid var(--card-border-color);
+        }
+
+        .auth-box h2 {
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+
+        .auth-box p {
+            color: #b3b3b3;
+            margin-bottom: 24px;
+        }
+
+        .token-input {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--input-color);
+            border: 1px solid var(--card-border-color);
+            border-radius: 4px;
+            color: var(--input-text-color);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .token-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .auth-btn {
+            padding: 12px 32px;
+            border-radius: 500px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth-btn.primary {
+            background-color: var(--accent-color);
+            color: var(--accent-text-color);
+            flex: 1;
+        }
+
+        .auth-btn.primary:hover {
+            transform: scale(1.04);
+        }
+
+        .auth-btn.secondary {
+            background-color: transparent;
+            color: white;
+            border: 1px solid #535353;
+        }
+
+        .auth-btn.secondary:hover {
+            border-color: white;
+        }
+
+        /* === УВЕДОМЛЕНИЯ === */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: var(--accent-text-color);
+            padding: 16px 24px;
+            border-radius: var(--card-radius);
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-color);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        /* === АДАПТИВНОСТЬ === */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .nav-item span {
+                display: none;
+            }
+            
+            .nav-item {
+                justify-content: center;
+            }
+            
+            .nav-section h3 {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                padding: 16px;
+                overflow-x: auto;
+            }
+            
+            .nav-section {
+                margin-bottom: 0;
+                display: flex;
+                gap: 8px;
+            }
+            
+            .nav-item {
+                padding: 8px 12px;
+                white-space: nowrap;
+            }
+            
+            .search-box {
+                width: 200px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <!-- Шапка -->
-    <header>
-        <div class="left-section">
-            <div class="logo-container">
-                <div class="logo-icon">≡</div>
-                <div style="color: white; font-size: 21px; font-weight: bold;">YouTube<span class="country-code">RU</span></div>
+    <!-- АВТОРИЗАЦИЯ -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-box">
+            <h2>🎵 Добро пожаловать в VK Music</h2>
+            <p>Для доступа к вашей музыке требуется авторизация</p>
+            
+            <div style="background-color: rgba(141, 72.9%, 42%, 0.1); padding: 16px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid var(--accent-color);">
+                <strong>ID вашего приложения: 54403714</strong>
+                <p style="margin-top: 8px; font-size: 12px; color: #b3b3b3;">
+                    Используйте этот ID для авторизации
+                </p>
+            </div>
+            
+            <p><strong>Как получить токен:</strong></p>
+            <ol style="color: #b3b3b3; margin-bottom: 20px; padding-left: 20px; line-height: 1.6;">
+                <li>Перейдите на <a href="https://vkhost.github.io/" target="_blank" style="color: var(--accent-color);">vkhost.github.io</a></li>
+                <li>Выберите "Kate Mobile"</li>
+                <li>Авторизуйтесь и разрешите доступ</li>
+                <li>Скопируйте токен из адресной строки</li>
+            </ol>
+            
+            <input type="text" id="tokenInput" class="token-input" placeholder="vk1.a.ваш_токен_здесь...">
+            
+            <div class="auth-buttons">
+                <button class="auth-btn primary" onclick="loginWithToken()">
+                    <i class="fas fa-sign-in-alt"></i> Войти
+                </button>
+                <button class="auth-btn secondary" onclick="enterDemoMode()">
+                    Демо-режим
+                </button>
+            </div>
+            
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #333;">
+                <p style="font-size: 12px; color: #666;">
+                    Или используйте тестовый токен (работает только с демо-музыкой):<br>
+                    <code style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; font-size: 11px;">demo_token_54403714</code>
+                </p>
             </div>
         </div>
+    </div>
 
-        <div class="right-section">
-            <div class="auth-section" id="authSection">
-                <button class="login-button" onclick="handleAuthClick()" id="loginButton" style="visibility: hidden;">Войти</button>
+    <!-- ОСНОВНОЙ ИНТЕРФЕЙС -->
+    <div class="app-container hidden" id="appContainer">
+        <!-- БОКОВАЯ ПАНЕЛЬ -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>VK Music</h1>
             </div>
-            <img src="https://yt3.googleusercontent.com/b1QWqjw9-5jaqxtoeGUnMtwKD01lruTvlDT9XkcVh41F9bCnxMt0Il3iI3s9AURp6XfpI3in4g=s160-c-k-c0x00ffffff-no-rj" alt="Аватар" class="user-avatar">
-        </div>
-    </header>
-
-    <!-- Боковая панель -->
-    <aside class="sidebar">
-        <div class="sidebar-item active" onclick="showMainPage()">
-            <div class="sidebar-icon">🏠</div>
-            <span>Главная</span>
-        </div>
-        <div class="sidebar-item">
-            <div class="sidebar-icon">🔥</div>
-            <span>Shorts</span>
-        </div>
-        <div class="sidebar-item">
-            <div class="sidebar-icon">📺</div>
-            <span>Подписки</span>
-        </div>
-        
-        <div class="sidebar-divider"></div>
-        
-        <div class="sidebar-item">
-            <div class="sidebar-icon">📚</div>
-            <span>Библиотека</span>
-        </div>
-        <div class="sidebar-item">
-            <div class="sidebar-icon">📜</div>
-            <span>История</span>
-        </div>
-        
-        <div class="sidebar-divider"></div>
-        
-        <div class="sidebar-item">
-            <div class="sidebar-icon">👥</div>
-            <span>О нас</span>
-        </div>
-        <div class="sidebar-item">
-            <div class="sidebar-icon">🗺️</div>
-            <span>Карты</span>
-        </div>
-        <div class="sidebar-item">
-            <div class="sidebar-icon">📂</div>
-            <span>Подборки</span>
-        </div>
-    </aside>
-
-    <!-- Основная страница -->
-    <main id="mainPage">
-        <!-- Баннер канала -->
-        <div class="banner"></div>
-
-        <!-- Информация о канале -->
-        <div class="channel-info">
-            <img src="https://yt3.googleusercontent.com/b1QWqjw9-5jaqxtoeGUnMtwKD01lruTvlDT9XkcVh41F9bCnxMt0Il3iI3s9AURp6XfpI3in4g=s160-c-k-c0x00ffffff-no-rj" alt="Аватар канала" class="channel-avatar">
-            <div class="channel-details">
-                <h1 class="channel-title">Бункер Шоу</h1>
+            
+            <div class="nav-section">
+                <h3>Главное</h3>
+                <a class="nav-item active" href="#">
+                    <i class="fas fa-home"></i>
+                    <span>Главная</span>
+                </a>
+                <a class="nav-item" href="#" onclick="searchMusic()">
+                    <i class="fas fa-search"></i>
+                    <span>Поиск</span>
+                </a>
+                <a class="nav-item" href="#" onclick="showLibrary()">
+                    <i class="fas fa-book"></i>
+                    <span>Моя медиатека</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Плейлисты</h3>
+                <a class="nav-item" href="#">
+                    <i class="fas fa-plus-square"></i>
+                    <span>Создать плейлист</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <i class="fas fa-heart"></i>
+                    <span>Понравившиеся</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <i class="fas fa-music"></i>
+                    <span>Ваши треки</span>
+                </a>
+            </div>
+            
+            <div class="nav-section" style="margin-top: auto;">
+                <div class="nav-item" onclick="installApp()">
+                    <i class="fas fa-download"></i>
+                    <span>Установить приложение</span>
+                </div>
+                <div class="nav-item" onclick="showSettings()">
+                    <i class="fas fa-cog"></i>
+                    <span>Настройки</span>
+                </div>
             </div>
         </div>
-
-        <!-- Вкладки -->
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('videos')">ВИДЕО</button>
-            <button class="tab" onclick="showTab('shorts')">SHORTS</button>
-            <button class="tab" onclick="showTab('streams')">СТРИМЫ</button>
-        </div>
-
-        <!-- Сетка видео -->
-        <div class="videos-grid" id="videos-content">
-            <!-- Видео будут добавляться с помощью JavaScript -->
-        </div>
-
-        <!-- Контент для Shorts (изначально скрыт) -->
-        <div class="videos-grid" id="shorts-content" style="display: none;">
-            <!-- Шортсы будут добавляться с помощью JavaScript -->
-        </div>
-
-        <!-- Контент для Стримов (изначально скрыт) -->
-        <div class="videos-grid" id="streams-content" style="display: none;">
-            <!-- Стримы будут добавляться с помощью JavaScript -->
-        </div>
-    </main>
-
-    <!-- Страница просмотра видео -->
-    <div class="video-page" id="videoPage">
-        <button class="back-button" onclick="showMainPage()">
-            ← Назад
-        </button>
         
-        <div class="video-container">
-            <div class="video-player-section">
-                <div class="video-player-wrapper">
-                    <iframe 
-                        class="video-player-full" 
-                        id="videoPlayerFull"
-                        src="" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <div class="main-content">
+            <!-- ХЕДЕР -->
+            <div class="header">
+                <div class="nav-buttons">
+                    <button class="nav-button">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-button">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
                 
-                <div class="video-info-section">
-                    <h1 class="video-title-full" id="videoTitleFull"></h1>
-                    
-                    <div class="video-stats">
-                        <span id="videoViewsFull"></span>
-                        <span class="dot">•</span>
-                        <span id="videoDateFull"></span>
-                    </div>
-                    
-                    <div class="video-actions" id="videoActions">
-                        <!-- Кнопки действий будут добавлены через JS -->
-                    </div>
-                    
-                    <div class="channel-info-video">
-                        <img src="https://yt3.googleusercontent.com/b1QWqjw9-5jaqxtoeGUnMtwKD01lruTvlDT9XkcVh41F9bCnxMt0Il3iI3s9AURp6XfpI3in4g=s160-c-k-c0x00ffffff-no-rj" alt="Бункер Шоу" class="channel-avatar-video">
-                        <div class="channel-details-video">
-                            <div class="channel-name-video">Бункер Шоу</div>
-                            <div class="channel-subs-video">1,23 млн подписчиков</div>
-                        </div>
-                        <button class="subscribe-button-video">ПОДПИСАТЬСЯ</button>
-                    </div>
-                    
-                    <div class="video-description" id="videoDescription">
-                        Описание видео появится здесь...
-                    </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Что хотите послушать?" onkeypress="if(event.key === 'Enter') searchMusic()">
+                </div>
+                
+                <div class="user-profile" id="userProfile">
+                    <div class="user-avatar"></div>
+                    <span id="userName">Гость</span>
+                    <i class="fas fa-chevron-down"></i>
                 </div>
             </div>
             
-            <div class="sidebar-video">
-                <div class="recommended-videos" id="recommendedVideos">
-                    <!-- Рекомендованные видео -->
+            <!-- КОНТЕНТ -->
+            <div class="content-wrapper">
+                <div class="greeting">
+                    <h2 id="greetingText">Добрый день</h2>
+                    <p>Слушайте музыку из VK в стильном интерфейсе</p>
+                </div>
+                
+                <div class="cards-section">
+                    <h3 style="margin-bottom: 20px; font-size: 24px;">Рекомендуем послушать</h3>
+                    <div class="cards-grid" id="musicGrid">
+                        <!-- Карточки будут добавляться здесь -->
+                    </div>
+                </div>
+                
+                <div class="cards-section">
+                    <h3 style="margin-bottom: 20px; font-size: 24px;">Популярные треки</h3>
+                    <div class="cards-grid" id="popularGrid">
+                        <!-- Популярные треки -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ПЛЕЕР -->
+        <div class="player-bar">
+            <div class="now-playing">
+                <div class="now-playing-cover" id="nowPlayingCover"></div>
+                <div class="track-info">
+                    <h4 id="nowPlayingTitle">Не выбрано</h4>
+                    <p id="nowPlayingArtist">Нажмите на трек для воспроизведения</p>
+                </div>
+                <button class="control-button">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="player-controls">
+                <div class="control-buttons">
+                    <button class="control-button" onclick="playPrev()">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="control-button play-pause" onclick="togglePlay()" id="playButton">
+                        <i class="fas fa-play" id="playIcon"></i>
+                    </button>
+                    <button class="control-button" onclick="playNext()">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
+                
+                <div class="progress-bar">
+                    <span class="progress-time" id="currentTime">0:00</span>
+                    <div class="progress-track" onclick="seekMusic(event)">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-time" id="totalTime">0:00</span>
+                </div>
+            </div>
+            
+            <div class="player-options">
+                <div class="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <div class="volume-slider" onclick="changeVolume(event)">
+                        <div class="volume-fill" id="volumeFill"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- СКРЫТЫЙ АУДИО -->
+    <audio id="audioPlayer" crossorigin="anonymous"></audio>
+
     <script>
-        // === КОНФИГУРАЦИЯ С ВАШИМИ КЛЮЧАМИ ===
-        const CLIENT_ID = '591207353726-shbp5qq759sf9qo0stpmt0d8i0ff432l.apps.googleusercontent.com';
-        const API_KEY = 'AIzaSyCmhhCOveZ5GRDSjBEv8MJMENml_AEh_Aw';
-        const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest';
-        const SCOPES = 'https://www.googleapis.com/auth/youtube.force-ssl';
-
-        let tokenClient;
-        let gapiInited = false;
-        let gisInited = false;
-        let currentVideoId = '';
-
-        // Массив с вашими видео
-        const videos = [
-            {
-                id: '9MrPXCTzWOc',
-                title: 'Тестовое видео | Бункер Шоу',
-                views: '123 тыс. просмотров',
-                date: '1 неделю назад',
-                thumbnail: 'https://i.ytimg.com/vi/9MrPXCTzWOc/maxresdefault.jpg',
-                description: 'Это тестовое видео канала Бункер Шоу. Подписывайтесь на канал чтобы не пропустить новые выпуски!'
+        // ========== КОНФИГУРАЦИЯ ==========
+        const VK_CLIENT_ID = "54403714";
+        const VK_API_VERSION = "5.199";
+        
+        // Демо-треки
+        const DEMO_TRACKS = [
+            { 
+                id: 1, 
+                title: "Blinding Lights", 
+                artist: "The Weeknd", 
+                duration: 200, 
+                cover: "linear-gradient(45deg, #1DB954, #191414)",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
             },
-            {
-                id: '7d1_eR7OELQ',
-                title: 'ЛУЧШИЕ МОМЕНТЫ | Бункер Шоу',
-                views: '1,2 млн просмотров',
-                date: '2 месяца назад',
-                thumbnail: 'https://i.ytimg.com/vi/7d1_eR7OELQ/maxresdefault.jpg',
-                description: 'Самые смешные и интересные моменты из всех выпусков Бункер Шоу. Не пропустите!'
+            { 
+                id: 2, 
+                title: "Flowers", 
+                artist: "Miley Cyrus", 
+                duration: 200, 
+                cover: "linear-gradient(45deg, #ff6b6b, #ee5a52)",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
             },
-            {
-                id: 'fSlUAnDDhz8',
-                title: 'САМЫЕ СМЕШНЫЕ СИТУАЦИИ | Бункер Шоу',
-                views: '890 тыс. просмотров',
-                date: '1 месяц назад',
-                thumbnail: 'https://i.ytimg.com/vi/fSlUAnDDhz8/maxresdefault.jpg',
-                description: 'Подборка самых смешных ситуаций, которые произошли в студии Бункер Шоу.'
+            { 
+                id: 3, 
+                title: "Kill Bill", 
+                artist: "SZA", 
+                duration: 153, 
+                cover: "linear-gradient(45deg, #8a2387, #f27121)",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
             },
-            {
-                id: 'lIGNJF8Bmlk',
-                title: 'ЗАКУЛИСЬЕ БУНКЕР ШОУ | Эксклюзив',
-                views: '540 тыс. просмотров',
-                date: '3 недели назад',
-                thumbnail: 'https://i.ytimg.com/vi/lIGNJF8Bmlk/maxresdefault.jpg',
-                description: 'Эксклюзивные кадры из-за кулис Бункер Шоу. Узнайте, как создается ваш любимый контент!'
+            { 
+                id: 4, 
+                title: "As It Was", 
+                artist: "Harry Styles", 
+                duration: 167, 
+                cover: "linear-gradient(45deg, #00b4db, #0083b0)",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
             }
         ];
 
-        // === ИНИЦИАЛИЗАЦИЯ GOOGLE API ===
-        function gapiLoaded() {
-            gapi.load('client', initializeGapiClient);
-        }
+        // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+        let currentUser = null;
+        let isPlaying = false;
+        let currentTrackIndex = 0;
+        let currentVolume = 70;
+        let isDemoMode = true;
+        let audio = document.getElementById('audioPlayer');
+        let progressInterval;
 
-        async function initializeGapiClient() {
-            await gapi.client.init({
-                apiKey: API_KEY,
-                discoveryDocs: [DISCOVERY_DOC],
-            });
-            gapiInited = true;
-            maybeEnableButtons();
-        }
-
-        function gisLoaded() {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: SCOPES,
-                callback: '', // определим позже
-            });
-            gisInited = true;
-            maybeEnableButtons();
-        }
-
-        function maybeEnableButtons() {
-            if (gapiInited && gisInited) {
-                document.getElementById('loginButton').style.visibility = 'visible';
-            }
-        }
-
-        // === АВТОРИЗАЦИЯ ===
-        function handleAuthClick() {
-            tokenClient.callback = async (resp) => {
-                if (resp.error !== undefined) {
-                    console.error('Auth error:', resp);
-                    alert('Ошибка авторизации: ' + resp.error);
-                    return;
-                }
-                await updateUI();
-            };
-
-            if (gapi.client.getToken() === null) {
-                tokenClient.requestAccessToken({prompt: 'consent'});
-            } else {
-                tokenClient.requestAccessToken({prompt: ''});
-            }
-        }
-
-        function handleSignoutClick() {
-            const token = gapi.client.getToken();
-            if (token !== null) {
-                google.accounts.oauth2.revoke(token.access_token);
-                gapi.client.setToken('');
-                updateUI();
-                location.reload();
-            }
-        }
-
-        // === ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ===
-        async function updateUI() {
-            const isSignedIn = gapi.client.getToken() !== null;
+        // ========== ФУНКЦИИ АВТОРИЗАЦИИ ==========
+        function loginWithToken() {
+            const token = document.getElementById('tokenInput').value.trim();
             
-            if (isSignedIn) {
-                try {
-                    const userInfo = await gapi.client.youtube.channels.list({
-                        part: 'snippet',
-                        mine: true
-                    });
+            if (!token) {
+                showNotification("Введите токен!", "error");
+                return;
+            }
+
+            // Проверка токена
+            if (token === "demo_token_54403714" || token.startsWith("vk1.a.")) {
+                showLoading(true);
+                
+                setTimeout(() => {
+                    currentUser = {
+                        id: 54403714,
+                        name: "Пользователь VK",
+                        token: token
+                    };
                     
-                    if (userInfo.result.items && userInfo.result.items.length > 0) {
-                        const user = userInfo.result.items[0].snippet;
-                        document.getElementById('authSection').innerHTML = `
-                            <div class="user-info">
-                                <img src="${user.thumbnails.default.url}" alt="${user.title}" class="user-avatar-small">
-                                <span>${user.title}</span>
-                                <button class="login-button" onclick="handleSignoutClick()">Выйти</button>
-                            </div>
-                        `;
-                    }
-                } catch (error) {
-                    console.error('Error getting user info:', error);
-                    document.getElementById('authSection').innerHTML = `
-                        <div class="user-info">
-                            <span>Пользователь</span>
-                            <button class="login-button" onclick="handleSignoutClick()">Выйти</button>
-                        </div>
-                    `;
-                }
+                    // Сохраняем в localStorage
+                    localStorage.setItem('vk_user', JSON.stringify(currentUser));
+                    
+                    // Переключаем режим
+                    isDemoMode = token === "demo_token_54403714";
+                    
+                    // Обновляем интерфейс
+                    document.getElementById('userName').textContent = currentUser.name;
+                    
+                    // Скрываем форму авторизации
+                    document.getElementById('authModal').classList.add('hidden');
+                    document.getElementById('appContainer').classList.remove('hidden');
+                    
+                    // Загружаем музыку
+                    loadMusic();
+                    
+                    showNotification(isDemoMode ? 
+                        "Демо-режим активирован!" : 
+                        "Успешный вход в VK Music!", 
+                        "success"
+                    );
+                    
+                    showLoading(false);
+                }, 1500);
             } else {
-                document.getElementById('authSection').innerHTML = `
-                    <button class="login-button" onclick="handleAuthClick()" id="loginButton">Войти</button>
-                `;
+                showNotification("Неверный формат токена", "error");
             }
         }
 
-        // === ФУНКЦИИ ДЛЯ РАБОТЫ С ЛАЙКАМИ ===
-        async function likeVideo() {
-            if (!gapi.client.getToken()) {
-                alert('Сначала войдите в аккаунт Google!');
-                return;
-            }
-
-            if (!currentVideoId) {
-                alert('Видео не выбрано');
-                return;
-            }
-
-            try {
-                await gapi.client.youtube.videos.rate({
-                    id: currentVideoId,
-                    rating: 'like'
-                });
-                
-                console.log('Video liked successfully');
-                updateLikeButtons('like');
-                
-            } catch (error) {
-                console.error('Error liking video:', error);
-                alert('Ошибка при установке лайка: ' + (error.result ? error.result.error.message : error));
-            }
+        function enterDemoMode() {
+            document.getElementById('tokenInput').value = "demo_token_54403714";
+            loginWithToken();
         }
 
-        async function dislikeVideo() {
-            if (!gapi.client.getToken()) {
-                alert('Сначала войдите в аккаунт Google!');
-                return;
-            }
-
-            if (!currentVideoId) {
-                alert('Видео не выбрано');
-                return;
-            }
-
-            try {
-                await gapi.client.youtube.videos.rate({
-                    id: currentVideoId,
-                    rating: 'dislike'
-                });
-                
-                console.log('Video disliked successfully');
-                updateLikeButtons('dislike');
-                
-            } catch (error) {
-                console.error('Error disliking video:', error);
-                alert('Ошибка при установке дизлайка: ' + (error.result ? error.result.error.message : error));
-            }
+        function logout() {
+            localStorage.removeItem('vk_user');
+            currentUser = null;
+            location.reload();
         }
 
-        async function getVideoRating(videoId) {
-            if (!gapi.client.getToken()) {
-                return 'none';
-            }
-
-            try {
-                const response = await gapi.client.youtube.videos.getRating({
-                    id: videoId
-                });
-                
-                if (response.result.items && response.result.items.length > 0) {
-                    return response.result.items[0].rating;
-                }
-                return 'none';
-            } catch (error) {
-                console.error('Error getting video rating:', error);
-                return 'none';
-            }
-        }
-
-        function updateLikeButtons(rating) {
-            const likeBtn = document.querySelector('.action-button.like-btn');
-            const dislikeBtn = document.querySelector('.action-button.dislike-btn');
+        // ========== МУЗЫКАЛЬНЫЕ ФУНКЦИИ ==========
+        function loadMusic() {
+            const musicGrid = document.getElementById('musicGrid');
+            const popularGrid = document.getElementById('popularGrid');
             
-            if (likeBtn && dislikeBtn) {
-                likeBtn.classList.remove('liked');
-                dislikeBtn.classList.remove('disliked');
+            // Очищаем сетки
+            musicGrid.innerHTML = '';
+            popularGrid.innerHTML = '';
+            
+            // Добавляем демо-треки
+            DEMO_TRACKS.forEach((track, index) => {
+                const card = createMusicCard(track, index);
+                musicGrid.appendChild(card);
                 
-                if (rating === 'like') {
-                    likeBtn.classList.add('liked');
-                } else if (rating === 'dislike') {
-                    dislikeBtn.classList.add('disliked');
+                if (index < 4) {
+                    const popularCard = createMusicCard(track, index);
+                    popularGrid.appendChild(popularCard.cloneNode(true));
                 }
-            }
+            });
+            
+            // Обновляем время суток
+            updateGreeting();
         }
 
-        function createActionButtons() {
-            return `
-                <button class="action-button like-btn" onclick="likeVideo()">
-                    👍 Нравится
-                </button>
-                <button class="action-button dislike-btn" onclick="dislikeVideo()">
-                    👎 Не нравится
-                </button>
-                <button class="action-button" onclick="shareVideo()">
-                    📤 Поделиться
-                </button>
-                <button class="action-button" onclick="saveVideo()">
-                    💾 Сохранить
-                </button>
+        function createMusicCard(track, index) {
+            const card = document.createElement('div');
+            card.className = 'music-card';
+            card.onclick = () => playTrack(index);
+            
+            const duration = formatTime(track.duration);
+            
+            card.innerHTML = `
+                <div class="card-image" style="background: ${track.cover};">
+                    <button class="play-button">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+                <div class="card-title">${track.title}</div>
+                <div class="card-description">${track.artist} • ${duration}</div>
             `;
+            
+            return card;
         }
 
-        // === ФУНКЦИИ ДЛЯ СТРАНИЦ ===
-        function showMainPage() {
-            document.getElementById('mainPage').style.display = 'block';
-            document.getElementById('videoPage').style.display = 'none';
+        function playTrack(index) {
+            currentTrackIndex = index;
+            const track = DEMO_TRACKS[index];
+            
+            // Обновляем информацию о текущем треке
+            document.getElementById('nowPlayingTitle').textContent = track.title;
+            document.getElementById('nowPlayingArtist').textContent = track.artist;
+            document.getElementById('nowPlayingCover').style.background = track.cover;
+            document.getElementById('totalTime').textContent = formatTime(track.duration);
+            
+            // Устанавливаем источник аудио
+            audio.src = track.url;
+            
+            // Воспроизводим
+            playAudio();
+            
+            // Показываем уведомление
+            showNotification(`Сейчас играет: ${track.title}`, "info");
         }
 
-        async function showVideoPage(videoId) {
-            const video = videos.find(v => v.id === videoId);
-            if (video) {
-                currentVideoId = videoId;
-                
-                document.getElementById('mainPage').style.display = 'none';
-                document.getElementById('videoPage').style.display = 'block';
-                
-                // Загружаем видео
-                document.getElementById('videoPlayerFull').src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
-                document.getElementById('videoTitleFull').textContent = video.title;
-                document.getElementById('videoViewsFull').textContent = video.views;
-                document.getElementById('videoDateFull').textContent = video.date;
-                document.getElementById('videoDescription').textContent = video.description;
-                
-                // Создаем кнопки действий
-                document.getElementById('videoActions').innerHTML = createActionButtons();
-                
-                // Обновляем кнопки лайков
-                const rating = await getVideoRating(videoId);
-                updateLikeButtons(rating);
-                
-                // Загружаем рекомендованные видео
-                loadRecommendedVideos(videoId);
+        function playAudio() {
+            audio.play();
+            isPlaying = true;
+            
+            // Обновляем кнопку
+            document.getElementById('playIcon').className = 'fas fa-pause';
+            
+            // Запускаем обновление прогресса
+            clearInterval(progressInterval);
+            progressInterval = setInterval(updateProgress, 1000);
+            
+            // Обновляем прогресс сразу
+            updateProgress();
+        }
+
+        function pauseAudio() {
+            audio.pause();
+            isPlaying = false;
+            document.getElementById('playIcon').className = 'fas fa-play';
+            clearInterval(progressInterval);
+        }
+
+        function togglePlay() {
+            if (!audio.src) {
+                playTrack(0);
+                return;
+            }
+            
+            if (isPlaying) {
+                pauseAudio();
+            } else {
+                playAudio();
             }
         }
 
-        function loadRecommendedVideos(currentVideoId) {
-            const recommendedContainer = document.getElementById('recommendedVideos');
-            recommendedContainer.innerHTML = '';
-            
-            videos.filter(video => video.id !== currentVideoId).forEach(video => {
-                const recommendedItem = document.createElement('div');
-                recommendedItem.className = 'recommended-item';
-                recommendedItem.onclick = () => showVideoPage(video.id);
-                
-                recommendedItem.innerHTML = `
-                    <img src="${video.thumbnail}" alt="${video.title}" class="recommended-thumbnail" onerror="this.src='https://i.ytimg.com/vi/${video.id}/hqdefault.jpg'">
-                    <div class="recommended-info">
-                        <div class="recommended-title">${video.title}</div>
-                        <div class="recommended-channel">Бункер Шоу</div>
-                        <div class="recommended-meta">${video.views} • ${video.date}</div>
-                    </div>
-                `;
-                
-                recommendedContainer.appendChild(recommendedItem);
-            });
+        function playNext() {
+            currentTrackIndex = (currentTrackIndex + 1) % DEMO_TRACKS.length;
+            playTrack(currentTrackIndex);
         }
 
-        function showTab(tabName) {
-            document.getElementById('videos-content').style.display = 'none';
-            document.getElementById('shorts-content').style.display = 'none';
-            document.getElementById('streams-content').style.display = 'none';
+        function playPrev() {
+            currentTrackIndex = currentTrackIndex === 0 ? 
+                DEMO_TRACKS.length - 1 : currentTrackIndex - 1;
+            playTrack(currentTrackIndex);
+        }
+
+        function updateProgress() {
+            if (!audio.duration) return;
             
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
+            const progress = (audio.currentTime / audio.duration) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
             
-            document.getElementById(tabName + '-content').style.display = 'grid';
-            event.target.classList.add('active');
+            // Время
+            document.getElementById('currentTime').textContent = 
+                formatTime(audio.currentTime);
+            document.getElementById('totalTime').textContent = 
+                formatTime(audio.duration);
+        }
+
+        function seekMusic(event) {
+            if (!audio.duration) return;
             
-            if (tabName === 'videos') {
-                loadVideos();
+            const progressTrack = event.currentTarget;
+            const rect = progressTrack.getBoundingClientRect();
+            const pos = (event.clientX - rect.left) / rect.width;
+            
+            audio.currentTime = pos * audio.duration;
+            updateProgress();
+        }
+
+        function changeVolume(event) {
+            const volumeSlider = event.currentTarget;
+            const rect = volumeSlider.getBoundingClientRect();
+            const volume = (event.clientX - rect.left) / rect.width;
+            
+            currentVolume = Math.round(volume * 100);
+            audio.volume = currentVolume / 100;
+            
+            document.getElementById('volumeFill').style.width = currentVolume + '%';
+        }
+
+        // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greeting;
+            
+            if (hour < 6) greeting = "Доброй ночи";
+            else if (hour < 12) greeting = "Доброе утро";
+            else if (hour < 18) greeting = "Добрый день";
+            else greeting = "Добрый вечер";
+            
+            document.getElementById('greetingText').textContent = greeting;
+        }
+
+        function searchMusic() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+            
+            if (isDemoMode) {
+                showNotification("В демо-режиме поиск не работает", "info");
+                return;
+            }
+            
+            showLoading(true);
+            
+            // Здесь будет реальный запрос к VK API
+            setTimeout(() => {
+                showLoading(false);
+                showNotification(`По запросу "${query}" найдено 15 треков`, "success");
+            }, 1000);
+        }
+
+        function showLibrary() {
+            showNotification("Ваша медиатека пуста", "info");
+        }
+
+        function installApp() {
+            showNotification("Приложение можно установить через меню браузера", "info");
+        }
+
+        function showSettings() {
+            showNotification("Настройки временно недоступны", "info");
+        }
+
+        function showNotification(message, type) {
+            // Удаляем старые уведомления
+            const oldNotifications = document.querySelectorAll('.notification');
+            oldNotifications.forEach(n => n.remove());
+            
+            // Создаем новое уведомление
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            
+            // Цвет в зависимости от типа
+            if (type === 'error') {
+                notification.style.backgroundColor = 'hsl(0, 85%, 61%)';
+            } else if (type === 'info') {
+                notification.style.backgroundColor = 'hsl(200, 85%, 61%)';
+            }
+            
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 
+                                 type === 'error' ? 'exclamation-circle' : 
+                                 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Удаляем через 3 секунды
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function showLoading(show) {
+            if (show) {
+                document.body.style.cursor = 'wait';
+            } else {
+                document.body.style.cursor = 'default';
             }
         }
 
-        function loadVideos() {
-            const videosGrid = document.getElementById('videos-content');
-            videosGrid.innerHTML = '';
-            
-            videos.forEach(video => {
-                const videoItem = document.createElement('a');
-                videoItem.className = 'video-item';
-                videoItem.onclick = (e) => {
-                    e.preventDefault();
-                    showVideoPage(video.id);
-                };
-                
-                videoItem.innerHTML = `
-                    <div class="thumbnail-container">
-                        <img src="${video.thumbnail}" alt="${video.title}" class="thumbnail" onerror="this.src='https://i.ytimg.com/vi/${video.id}/hqdefault.jpg'">
-                    </div>
-                    <div class="video-info">
-                        <img src="https://yt3.googleusercontent.com/b1QWqjw9-5jaqxtoeGUnMtwKD01lruTvlDT9XkcVh41F9bCnxMt0Il3iI3s9AURp6XfpI3in4g=s160-c-k-c0x00ffffff-no-rj" alt="Бункер Шоу" class="video-avatar">
-                        <div class="video-details">
-                            <div class="video-title">${video.title}</div>
-                            <div class="video-channel">Бункер Шоу</div>
-                            <div class="video-meta">
-                                <span>${video.views}</span>
-                                <span class="dot">•</span>
-                                <span>${video.date}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                videosGrid.appendChild(videoItem);
-            });
-        }
-
-        // Вспомогательные функции
-        function shareVideo() {
-            if (currentVideoId) {
-                const url = `https://www.youtube.com/watch?v=${currentVideoId}`;
-                navigator.clipboard.writeText(url).then(() => {
-                    alert('Ссылка скопирована в буфер обмена!');
-                });
-            }
-        }
-
-        function saveVideo() {
-            alert('Функция "Сохранить" в разработке');
-        }
-
-        // Загружаем видео при загрузке страницы
+        // ========== ИНИЦИАЛИЗАЦИЯ ==========
         window.onload = function() {
-            loadVideos();
-            updateUI(); // Проверяем статус авторизации при загрузке
+            // Проверяем сохраненную сессию
+            const savedUser = localStorage.getItem('vk_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                isDemoMode = currentUser.token === "demo_token_54403714";
+                
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('authModal').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('hidden');
+                
+                loadMusic();
+                showNotification("С возвращением!", "success");
+            }
+            
+            // Настройка аудио
+            audio.volume = currentVolume / 100;
+            audio.onended = playNext;
+            
+            // Обновляем громкость
+            document.getElementById('volumeFill').style.width = currentVolume + '%';
+            
+            // Автовоспроизведение первого трека через 2 секунды
+            setTimeout(() => {
+                if (!audio.src && DEMO_TRACKS.length > 0) {
+                    playTrack(0);
+                }
+            }, 2000);
         };
     </script>
-
-    <!-- Подключаем Google API -->
-    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 </body>
 </html>
